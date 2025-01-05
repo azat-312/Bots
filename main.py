@@ -37,7 +37,6 @@ async def mem_handler(message: types.Message):
                              caption='Это мем')
 
     await message.answer_photo(photo=photo, caption='Мем')
-
 @dp.message_handler()
 async def echo_handler(message: types.Message):
     await message.answer(message.text)
