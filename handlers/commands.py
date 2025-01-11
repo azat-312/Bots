@@ -1,4 +1,4 @@
-from aiogram import Dispatcher, types
+from aiogram import Dispatcher, types, bot
 import os
 from config import bot
 
@@ -30,8 +30,18 @@ async def mem_handler(message: types.Message):
     #     await message.answer_photo(photo=photo, caption='Мем')
 
 
+async def game_dice(message:types.Message):
+    await bot.send_message(message.from_user.id,f"игра началась , {message.from_user.username}")
+
+    dice1 = await bot.send_dice(message.from_user.id)
+    print(dice1['dice1']['value'])
+
+
+
+
 
 
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(start_handler, commands=['start'])
     dp.register_message_handler(mem_handler, commands=['car'])
+    dp.register_message_handler(game_dice, commands=['game'])
