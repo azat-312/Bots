@@ -5,7 +5,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemo
 
 start = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
     KeyboardButton('/start'),
-    KeyboardButton('/mem'),
+    KeyboardButton('/car'),
     KeyboardButton('/quiz'),
     KeyboardButton('/reply_webapp'),
     KeyboardButton('/inline_webapp'),

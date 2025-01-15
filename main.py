@@ -6,7 +6,7 @@ from buttons import start
 
 async def on_startup(_):
     for admin in Admins:
-        await bot.send_message(chat_id=admin, text='Бот включен!')
+        await bot.send_message(chat_id=admin, text='Бот включен!', reply_markup=start)
 
 
 commands.register_handlers(dp)
