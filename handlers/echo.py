@@ -1,5 +1,5 @@
 from aiogram import Dispatcher,  types
-#dp.message_handler()
+#db.message_handler()
 async def echo_handler(message: types.Message):
     if message.text.isdigit():
         await message.answer(int(message.text)**2)

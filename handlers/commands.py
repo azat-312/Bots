@@ -11,7 +11,7 @@ async def start_handler(message: types.Message):
     await message.answer('Привет!')
 
 
-# @dp.message_handler(commands=['mem'])
+# @db.message_handler(commands=['mem'])
 async def mem_handler(message: types.Message):
     photo_path = os.path.join('media', 'images.jpeg')
 
