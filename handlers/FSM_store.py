@@ -11,6 +11,8 @@ class FSM_store(StatesGroup):
     category = State()
     price = State()
     photo = State()
+    productid = State()
+    infoproduct = State()
     submit = State()
 
 
@@ -55,13 +57,28 @@ async def load_photo(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['photo'] = message.photo[-1].file_id
 
-        await FSM_store.next()
-        await message.answer('Верные ли данные ?')
-        await message.answer_photo(photo=data['photo'],
+    await FSM_store.next()
+    await message.answer('пропишите id продукта')
+
+async def productid(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['productid'] = message.text
+
+    await FSM_store.next()
+    await message.answer('информация о продукте')
+
+async def infoproduct(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['infoproduct'] = message.text
+    await FSM_store.next()
+    await message.answer('Верные ли данные ?')
+    await message.answer_photo(photo=data['photo'],
                                    caption=f'название - {data["name"]}\n'
                                     f'размер - {data["size"]}\n'
                                     f'категория - {data["category"]}\n'
-                                    f'стоимость  - {data["price"]}\n', reply_markup=buttons.submit)
+                                    f'стоимость  - {data["price"]}\n'
+                                    f'id продукта - {data["productid"]}\n'
+                                    f'информация о продукте -{data["infoproduct"]}\n',reply_markup=buttons.submit)
 
 async def submit(message: types.Message, state: FSMContext):
     if message.text == 'да':
@@ -74,6 +91,12 @@ async def submit(message: types.Message, state: FSMContext):
                 price=data['price'],
                 photo=data['photo']
             )
+        async with state.proxy() as data:
+            await main_db.sql_products_details(
+                category=data['category'],
+                productid=data['productid'],
+                infoproduct=data['infoproduct']
+                )
             await message.answer('Ваши данные в базе', reply_markup=buttons.remove_keyboard)
 
         await state.finish()
@@ -95,6 +118,7 @@ async def cancel_fsm(message: types.Message, state: FSMContext):
         await message.answer('Отменено!', reply_markup=buttons.remove_keyboard)
 
 
+
 def register_handlers_fsm_store(dp: Dispatcher):
     dp.register_message_handler(cancel_fsm, Text(equals='отмена', ignore_case=True), state='*')
     dp.register_message_handler(start_fsm_store, commands='store')
@@ -103,4 +127,6 @@ def register_handlers_fsm_store(dp: Dispatcher):
     dp.register_message_handler(load_category, state=FSM_store.category)
     dp.register_message_handler(load_price, state=FSM_store.price)
     dp.register_message_handler(load_photo, state=FSM_store.photo, content_types=['photo'])
+    dp.register_message_handler(infoproduct,state=FSM_store.infoproduct)
+    dp.register_message_handler(productid,state=FSM_store.productid)
     dp.register_message_handler(submit, state=FSM_store.submit)

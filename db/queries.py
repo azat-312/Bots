@@ -29,3 +29,17 @@ INSERT_store_query = """
     INSERT INTO registered (name, size, category, price, photo)
     VALUES (?, ?, ?, ?, ?)
 """
+CREATE_TABLE_products_details = """
+    CREATE TABLE IF NOT EXISTS store (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    productid TEXT,
+    category TEXT ,
+    infoproduct TEXT
+    
+    )
+"""
+
+INSERT_products_details = """
+    INSERT INTO registered (productid, category, infoproduct)
+    VALUES (?, ?, ?)
+"""

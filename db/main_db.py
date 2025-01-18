@@ -26,3 +26,13 @@ async def sql_store_registered(name, size, category, price, photo):
         name, size, category, price, photo
     ))
     db.commit()
+async def create_db():
+    if db:
+        print('База данных подключена')
+    cursor.execute(queries.CREATE_TABLE_products_details)
+
+
+async def sql_products_details(productid, category, infoproduct ):
+    cursor.execute(queries.INSERT_registered_query, (
+         productid, category, infoproduct))
+    db.commit()
