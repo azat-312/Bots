@@ -10,7 +10,8 @@ start = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
     KeyboardButton('/reply_webapp'),
     KeyboardButton('/inline_webapp'),
     KeyboardButton('/registration'),
-    KeyboardButton('/store')
+    KeyboardButton('/store'),
+    KeyboardButton('/game')
     )
 
 
