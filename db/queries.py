@@ -25,7 +25,7 @@ CREATE_TABLE_store = """
     )
 """
 
-INSERT_store = """
+INSERT_store_query = """
     INSERT INTO registered (name, size, category, price, photo)
     VALUES (?, ?, ?, ?, ?)
 """
@@ -39,7 +39,7 @@ CREATE_TABLE_products_details = """
     )
 """
 
-INSERT_products_details = """
+INSERT_products_details_query = """
     INSERT INTO registered (productid, category, infoproduct)
     VALUES (?, ?, ?)
 """
@@ -52,7 +52,7 @@ CREATE_TABLE_collection = """
     )
 """
 
-INSERT_collection = """
+INSERT_collection_query = """
     INSERT INTO registered (productid, collection)
     VALUES (?, ?)
 """
