@@ -10,6 +10,7 @@ class FSM_store(StatesGroup):
     size = State()
     category = State()
     price = State()
+    collection = State()
     photo = State()
     productid = State()
     infoproduct = State()
@@ -50,6 +51,14 @@ async def load_price(message: types.Message, state: FSMContext):
         data['price'] = message.text
 
     await FSM_store.next()
+    await message.answer('какая коллекция')
+
+
+async def load_collection(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['collection'] = message.text
+
+    await FSM_store.next()
     await message.answer('Отправьте  фотографию товара')
 
 
@@ -70,6 +79,7 @@ async def productid(message: types.Message, state: FSMContext):
 async def infoproduct(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['infoproduct'] = message.text
+
     await FSM_store.next()
     await message.answer('Верные ли данные ?')
     await message.answer_photo(photo=data['photo'],
@@ -78,13 +88,13 @@ async def infoproduct(message: types.Message, state: FSMContext):
                                     f'категория - {data["category"]}\n'
                                     f'стоимость  - {data["price"]}\n'
                                     f'id продукта - {data["productid"]}\n'
-                                    f'информация о продукте -{data["infoproduct"]}\n',reply_markup=buttons.submit)
+                                    f'информация о продукте -{data["infoproduct"]}\n'
+                                    f'коллекция продукта - {data["collection"]}\n',reply_markup=buttons.submit)
 
 async def submit(message: types.Message, state: FSMContext):
     if message.text == 'да':
-
         async with state.proxy() as data:
-            await main_db.sql_store_registered(
+            await main_db.sql_store(
                 name=data['name'],
                 size=data['size'],
                 category=data['category'],
@@ -97,11 +107,14 @@ async def submit(message: types.Message, state: FSMContext):
                 productid=data['productid'],
                 infoproduct=data['infoproduct']
                 )
+        async with state.proxy() as data:
+            await main_db.sql_collection(
+                collection=data['collection'],
+                productid=data['productid']
+                )
             await message.answer('Ваши данные в базе', reply_markup=buttons.remove_keyboard)
 
         await state.finish()
-
-
     elif message.text == 'нет':
         await message.answer('Хорошо, отменено!', reply_markup=buttons.remove_keyboard)
         await state.finish()
@@ -126,6 +139,7 @@ def register_handlers_fsm_store(dp: Dispatcher):
     dp.register_message_handler(load_size, state=FSM_store.size)
     dp.register_message_handler(load_category, state=FSM_store.category)
     dp.register_message_handler(load_price, state=FSM_store.price)
+    dp.register_message_handler(load_collection, state=FSM_store.collection)
     dp.register_message_handler(load_photo, state=FSM_store.photo, content_types=['photo'])
     dp.register_message_handler(infoproduct,state=FSM_store.infoproduct)
     dp.register_message_handler(productid,state=FSM_store.productid)

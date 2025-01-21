@@ -25,7 +25,7 @@ CREATE_TABLE_store = """
     )
 """
 
-INSERT_store_query = """
+INSERT_store = """
     INSERT INTO registered (name, size, category, price, photo)
     VALUES (?, ?, ?, ?, ?)
 """
@@ -42,4 +42,17 @@ CREATE_TABLE_products_details = """
 INSERT_products_details = """
     INSERT INTO registered (productid, category, infoproduct)
     VALUES (?, ?, ?)
+"""
+CREATE_TABLE_collection = """
+    CREATE TABLE IF NOT EXISTS store (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    productid TEXT,
+    collection TEXT
+
+    )
+"""
+
+INSERT_collection = """
+    INSERT INTO registered (productid, collection)
+    VALUES (?, ?)
 """
