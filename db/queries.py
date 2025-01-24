@@ -14,45 +14,53 @@ INSERT_registered_query = """
     VALUES (?, ?, ?, ?, ?)
 """
 
+
+
 CREATE_TABLE_store = """
     CREATE TABLE IF NOT EXISTS store (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
+    name_product TEXT,
     size TEXT,
-    category TEXT,
     price TEXT,
-    photo TEXT
+    photo TEXT,
+    product_id TEXT
     )
 """
 
 INSERT_store_query = """
-    INSERT INTO registered (name, size, category, price, photo)
+    INSERT INTO store (name_product, size, price, photo, product_id)
     VALUES (?, ?, ?, ?, ?)
 """
+
+
+
 CREATE_TABLE_products_details = """
-    CREATE TABLE IF NOT EXISTS store (
+    CREATE TABLE IF NOT EXISTS products_details (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    productid TEXT,
+    product_id TEXT,
     category TEXT ,
-    infoproduct TEXT
+    info_product TEXT
     
     )
 """
 
 INSERT_products_details_query = """
-    INSERT INTO registered (productid, category, infoproduct)
+    INSERT INTO products_details (product_id, category, info_product)
     VALUES (?, ?, ?)
 """
+
+
+
 CREATE_TABLE_collection = """
-    CREATE TABLE IF NOT EXISTS store (
+    CREATE TABLE IF NOT EXISTS collection (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    productid TEXT,
+    product_id TEXT,
     collection TEXT
 
     )
 """
 
 INSERT_collection_query = """
-    INSERT INTO registered (productid, collection)
+    INSERT INTO collection (product_id, collection)
     VALUES (?, ?)
 """
