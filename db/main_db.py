@@ -70,3 +70,27 @@ def delete_product(product_id):
     conn.commit()
     conn.close()
 
+def update_product_field(product_id, field_name, new_value):
+    conn = get_db_connection()
+
+    store_table = ['name_product', 'size', 'price', 'photo']
+    products_details_table = ['category', 'info_product']
+    collection_table = ['product_id', 'collection']
+    try:
+        if field_name in store_table:
+            query = f"UPDATE store SET {field_name} = ? WHERE product_id = ?"
+        elif field_name in products_details_table:
+            query = f"UPDATE products_details SET {field_name} = ? WHERE product_id = ?"
+        elif field_name in collection_table:
+            query = f"UPDATE collection SET {field_name} = ? WHERE product_id = ?"
+        else:
+            raise ValueError(f'Нет такого поля как {field_name}')
+
+        conn.execute(query, (new_value, product_id))
+        conn.commit()
+
+    except sqlite3.OperationalError as e:
+        print(f'Ошибка - {e}')
+
+    finally:
+        conn.close()

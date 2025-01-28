@@ -11,7 +11,8 @@ start = ReplyKeyboardMarkup(resize_keyboard=True, row_width=3).add(
     KeyboardButton('/registration'),
     KeyboardButton('/store'),
     KeyboardButton('/send_store'),
-    KeyboardButton('/delete_store'),)
+    KeyboardButton('/delete_store'),
+    KeyboardButton('/edit_store'),)
 
 
 submit = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=True).add(KeyboardButton('да'), KeyboardButton('нет'))
